@@ -45,7 +45,7 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
         .section-title { font-size: 1.8rem; margin-bottom: 25px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        /* გალამაზებული Spin Wheel სტილები */
+        /* ბორბლის სტილები 7 სექტორისთვის */
         .spin-container { background: var(--card-bg); border-radius: 16px; padding: 30px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .wheel-wrapper { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; border: 6px solid var(--gold); box-shadow: 0 0 25px rgba(255, 183, 3, 0.3), inset 0 0 15px rgba(0,0,0,0.8); overflow: hidden; }
         .pointer { position: absolute; top: 2px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid var(--danger); z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
@@ -54,16 +54,17 @@
             width: 100%; height: 100%; border-radius: 50%; 
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1); 
             background: conic-gradient(
-                #1e293b 0deg 60deg, 
-                #334155 60deg 120deg, 
-                #1e293b 120deg 180deg, 
-                #334155 180deg 240deg, 
-                #1e293b 240deg 300deg, 
-                #334155 300deg 360deg
+                #1e293b 0deg 51.43deg, 
+                #334155 51.43deg 102.86deg, 
+                #1e293b 102.86deg 154.29deg, 
+                #334155 154.29deg 205.71deg, 
+                #1e293b 205.71deg 257.14deg, 
+                #334155 257.14deg 308.57deg,
+                #1e293b 308.57deg 360deg
             ); 
             position: relative; 
         }
-        .wheel-item { position: absolute; top: 50%; left: 50%; width: 50%; height: 40px; margin-top: -20px; transform-origin: 0% 50%; display: flex; align-items: center; padding-left: 40px; font-weight: 600; font-size: 0.8rem; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .wheel-item { position: absolute; top: 50%; left: 50%; width: 50%; height: 40px; margin-top: -20px; transform-origin: 0% 50%; display: flex; align-items: center; padding-left: 35px; font-weight: 600; font-size: 0.75rem; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
 
         .inventory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
         .inv-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: space-between; align-items: center; gap: 12px; transition: 0.3s; }
@@ -84,7 +85,6 @@
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 500px; }
         .admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; font-size: 0.9rem; }
 
-        /* მობილური ვერსიის მედია ქვერი */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
         @media (max-width: 768px) {
@@ -139,12 +139,13 @@
             <div class="wheel-wrapper">
                 <div class="pointer"></div>
                 <div class="wheel" id="wheel">
-                    <div class="wheel-item" style="transform: rotate(0deg);"><i class="fa-solid fa-hammer" style="color:var(--gold); margin-right:6px;"></i> Iron Tools</div>
-                    <div class="wheel-item" style="transform: rotate(60deg);"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold); margin-right:6px;"></i> Diamond Tools</div>
-                    <div class="wheel-item" style="transform: rotate(120deg);"><i class="fa-solid fa-shield-halved" style="color:var(--gold); margin-right:6px;"></i> Diamond Set</div>
-                    <div class="wheel-item" style="transform: rotate(180deg);"><i class="fa-solid fa-cubes" style="color:var(--gold); margin-right:6px;"></i> Netherite (2)</div>
-                    <div class="wheel-item" style="transform: rotate(240deg);"><i class="fa-solid fa-shirt" style="color:var(--gold); margin-right:6px;"></i> Iron Set</div>
-                    <div class="wheel-item" style="transform: rotate(300deg);"><i class="fa-solid fa-sack-dollar" style="color:var(--gold); margin-right:6px;"></i> 1000$</div>
+                    <div class="wheel-item" style="transform: rotate(0deg);"><i class="fa-solid fa-hammer" style="color:var(--gold); margin-right:5px;"></i> Iron Tools</div>
+                    <div class="wheel-item" style="transform: rotate(51.43deg);"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold); margin-right:5px;"></i> Diamond Tools</div>
+                    <div class="wheel-item" style="transform: rotate(102.86deg);"><i class="fa-solid fa-shield-halved" style="color:var(--gold); margin-right:5px;"></i> Diamond Set</div>
+                    <div class="wheel-item" style="transform: rotate(154.29deg);"><i class="fa-solid fa-cubes" style="color:var(--gold); margin-right:5px;"></i> Netherite (2)</div>
+                    <div class="wheel-item" style="transform: rotate(205.71deg);"><i class="fa-solid fa-shirt" style="color:var(--gold); margin-right:5px;"></i> Iron Set</div>
+                    <div class="wheel-item" style="transform: rotate(257.14deg);"><i class="fa-solid fa-sack-dollar" style="color:var(--gold); margin-right:5px;"></i> 1000$</div>
+                    <div class="wheel-item" style="transform: rotate(308.57deg);"><i class="fa-solid fa-apple-whole" style="color:var(--gold); margin-right:5px;"></i> 64x G-Apples</div>
                 </div>
             </div>
 
@@ -224,8 +225,7 @@
         };
 
         function toggleMobileMenu() {
-            const links = document.getElementById('nav-links');
-            links.classList.toggle('active');
+            document.getElementById('nav-links').classList.toggle('active');
         }
 
         function closeMobileMenu() {
@@ -322,7 +322,7 @@
 
                 isSpinning = true;
                 const wheel = document.getElementById('wheel');
-                const degreesPerPrize = 60;
+                const degreesPerPrize = 360 / 7;
                 const prizeDegree = data.prizeIndex * degreesPerPrize;
                 const totalRotation = 360 * 5 + (360 - prizeDegree);
 
