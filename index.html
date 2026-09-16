@@ -139,13 +139,14 @@
             <div class="wheel-wrapper">
                 <div class="pointer"></div>
                 <div class="wheel" id="wheel">
-                    <div class="wheel-item" style="transform: rotate(0deg);"><i class="fa-solid fa-hammer" style="color:var(--gold); margin-right:5px;"></i> Iron Tools</div>
-                    <div class="wheel-item" style="transform: rotate(51.43deg);"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold); margin-right:5px;"></i> Diamond Tools</div>
-                    <div class="wheel-item" style="transform: rotate(102.86deg);"><i class="fa-solid fa-shield-halved" style="color:var(--gold); margin-right:5px;"></i> Diamond Set</div>
-                    <div class="wheel-item" style="transform: rotate(154.29deg);"><i class="fa-solid fa-cubes" style="color:var(--gold); margin-right:5px;"></i> Netherite (2)</div>
-                    <div class="wheel-item" style="transform: rotate(205.71deg);"><i class="fa-solid fa-shirt" style="color:var(--gold); margin-right:5px;"></i> Iron Set</div>
-                    <div class="wheel-item" style="transform: rotate(257.14deg);"><i class="fa-solid fa-sack-dollar" style="color:var(--gold); margin-right:5px;"></i> 1000$</div>
-                    <div class="wheel-item" style="transform: rotate(308.57deg);"><i class="fa-solid fa-apple-whole" style="color:var(--gold); margin-right:5px;"></i> 64x G-Apples</div>
+                    <!-- სექტორების ზუსტი შუა წერტილები (Middle Angles) -->
+                    <div class="wheel-item" style="transform: rotate(25.71deg);"><i class="fa-solid fa-hammer" style="color:var(--gold); margin-right:5px;"></i> Iron Tools</div>
+                    <div class="wheel-item" style="transform: rotate(77.14deg);"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold); margin-right:5px;"></i> Diamond Tools</div>
+                    <div class="wheel-item" style="transform: rotate(128.57deg);"><i class="fa-solid fa-shield-halved" style="color:var(--gold); margin-right:5px;"></i> Diamond Set</div>
+                    <div class="wheel-item" style="transform: rotate(180deg);"><i class="fa-solid fa-cubes" style="color:var(--gold); margin-right:5px;"></i> Netherite (2)</div>
+                    <div class="wheel-item" style="transform: rotate(231.43deg);"><i class="fa-solid fa-shirt" style="color:var(--gold); margin-right:5px;"></i> Iron Set</div>
+                    <div class="wheel-item" style="transform: rotate(282.86deg);"><i class="fa-solid fa-sack-dollar" style="color:var(--gold); margin-right:5px;"></i> 1000$</div>
+                    <div class="wheel-item" style="transform: rotate(334.29deg);"><i class="fa-solid fa-apple-whole" style="color:var(--gold); margin-right:5px;"></i> 64x G-Apples</div>
                 </div>
             </div>
 
@@ -322,9 +323,11 @@
 
                 isSpinning = true;
                 const wheel = document.getElementById('wheel');
-                const degreesPerPrize = 360 / 7;
-                const prizeDegree = data.prizeIndex * degreesPerPrize;
-                const totalRotation = 360 * 5 + (360 - prizeDegree);
+                const anglePerSlice = 360 / 7;
+                
+                // ზუსტად სექტორის შუა წერტილზე მიზნობრივი როტაცია
+                const middleAngle = (data.prizeIndex * anglePerSlice) + (anglePerSlice / 2);
+                const totalRotation = 360 * 5 + (360 - middleAngle);
 
                 wheel.style.transform = `rotate(${totalRotation}deg)`;
 
