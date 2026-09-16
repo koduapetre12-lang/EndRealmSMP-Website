@@ -100,12 +100,13 @@ app.post('/api/login', async (req, res) => {
 });
 
 const prizes = [
-    { name: "5x Diamond", icon: "fa-gem" },
-    { name: "1x Elytra", icon: "fa-feather" },
-    { name: "Netherite Ingot", icon: "fa-cubes" },
-    { name: "64x Golden Apple", icon: "fa-apple-whole" },
-    { name: "1x End Crystal", icon: "fa-disease" },
-    { name: "VIP Status (1 დღე)", icon: "fa-crown" }
+    { name: "Iron Tools", icon: "fa-hammer" },
+    { name: "Diamond Tools", icon: "fa-wand-magic-sparkles" },
+    { name: "Diamond Set", icon: "fa-shield-halved" },
+    { name: "Netherite (2)", icon: "fa-cubes" },
+    { name: "Iron Set", icon: "fa-shirt" },
+    { name: "1000$", icon: "fa-sack-dollar" },
+    { name: "64x G-Apples", icon: "fa-apple-whole" }
 ];
 
 app.post('/api/spin', authenticateToken, async (req, res) => {
