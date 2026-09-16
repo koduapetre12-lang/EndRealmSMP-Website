@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EndRealm SMP - Official Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1015;
+            --card-bg: #181a20;
+            --accent: #7289da;
+            --accent-hover: #5b6eae;
+            --gold: #ffb703;
+            --danger: #e63946;
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text); padding-bottom: 50px; }
+
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(24, 26, 32, 0.95); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 600; }
+
+        .btn { background: var(--accent); color: #fff; padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-gold { background: var(--gold); color: #000; }
+        .btn-danger { background: var(--danger); }
+
+        .hero { text-align: center; padding: 80px 20px 40px; background: radial-gradient(circle at center, rgba(114, 137, 218, 0.15) 0%, rgba(15, 16, 21, 0) 70%); }
+        .hero h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(45deg, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .ip-box { display: inline-flex; align-items: center; background: var(--card-bg); padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-weight: 600; gap: 15px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        .section-title { font-size: 2rem; margin-bottom: 25px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .rule-card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+
+        .spin-container { background: var(--card-bg); border-radius: 16px; padding: 30px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .wheel-wrapper { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; border: 5px solid var(--gold); overflow: hidden; }
+        .pointer { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid var(--danger); z-index: 10; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1); background: conic-gradient(#1e293b 0deg 60deg, #334155 60deg 120deg, #1e293b 120deg 180deg, #334155 180deg 240deg, #1e293b 240deg 300deg, #334155 300deg 360deg); position: relative; }
+        .wheel-item { position: absolute; top: 50%; left: 50%; width: 50%; height: 40px; margin-top: -20px; transform-origin: 0% 50%; display: flex; align-items: center; padding-left: 50px; font-weight: 600; font-size: 0.85rem; }
+
+        .inventory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .inv-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: space-between; align-items: center; gap: 12px; }
+        .inv-card i { font-size: 2.2rem; color: var(--gold); }
+
+        #mc-inventory-section { display: none; margin-top: 40px; background: rgba(24, 26, 32, 0.6); border: 1px dashed var(--gold); border-radius: 16px; padding: 30px; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.2rem; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 5px; color: var(--text-dim); }
+        .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #0f1015; color: #fff; }
+
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fa-solid fa-cube"></i> EndRealm SMP</div>
+        <div class="nav-links">
+            <a href="#rules">წესები</a>
+            <a href="#spin">Daily Spin</a>
+            <a href="#inventory">ინვენტარი</a>
+            <div id="auth-buttons">
+                <button class="btn" onclick="openModal('auth-modal')">შესვლა</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Welcome to EndRealm SMP</h1>
+        <p>საუკეთესო survival გამოცდილება Georgia Minecraft საზოგადოებისთვის!</p>
+        <div class="ip-box" onclick="navigator.clipboard.writeText('play.endrealm.ge'); alert('IP კოპირებულია!');">
+            <span>play.endrealm.ge</span>
+            <i class="fa-regular fa-copy"></i>
+        </div>
+    </section>
+
+    <div class="container" id="spin">
+        <h2 class="section-title"><i class="fa-solid fa-dharmachakra"></i> ყოველდღიური Daily Spin</h2>
+        <div class="spin-container">
+            <div class="wheel-wrapper">
+                <div class="pointer"></div>
+                <div class="wheel" id="wheel">
+                    <div class="wheel-item" style="transform: rotate(0deg);"><i class="fa-solid fa-gem"></i> 5x Diamond</div>
+                    <div class="wheel-item" style="transform: rotate(60deg);"><i class="fa-solid fa-feather"></i> 1x Elytra</div>
+                    <div class="wheel-item" style="transform: rotate(120deg);"><i class="fa-solid fa-cubes"></i> Netherite Ingot</div>
+                    <div class="wheel-item" style="transform: rotate(180deg);"><i class="fa-solid fa-apple-whole"></i> 64x G-Apple</div>
+                    <div class="wheel-item" style="transform: rotate(240deg);"><i class="fa-solid fa-disease"></i> End Crystal</div>
+                    <div class="wheel-item" style="transform: rotate(300deg);"><i class="fa-solid fa-crown"></i> VIP (1 დღე)</div>
+                </div>
+            </div>
+
+            <button class="btn btn-gold" id="spin-btn" onclick="spinWheel()" style="font-size: 1.1rem; padding: 12px 30px;">
+                <i class="fa-solid fa-play"></i> დატრიალება
+            </button>
+            <p id="spin-msg" style="margin-top: 15px; font-weight: 600;"></p>
+        </div>
+    </div>
+
+    <div class="container" id="inventory">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 class="section-title" style="margin-bottom: 0;"><i class="fa-solid fa-box-open"></i> ჩემი ინვენტარი</h2>
+            <button class="btn btn-gold" onclick="toggleMcInventory()">
+                <i class="fa-solid fa-box"></i> Minecraft ინვენტარი
+            </button>
+        </div>
+
+        <div id="inventory-list" class="inventory-grid">
+            <p style="text-align: center; grid-column: 1/-1; color: var(--text-dim);">ინვენტარის სანახავად გაიარეთ ავტორიზაცია.</p>
+        </div>
+
+        <div id="mc-inventory-section">
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 10px;">
+                <i class="fa-solid fa-truck-ramp-box"></i> გადატანილი Minecraft ინვენტარი
+            </h3>
+            <p style="text-align: center; font-size: 0.85rem; color: var(--danger); margin-bottom: 20px;">
+                ყურადღება: ამ სექციაში არსებული ნივთები 3 დღეში ავტომატურად იშლება!
+            </p>
+            <div id="mc-inventory-list" class="inventory-grid">
+                <p style="text-align: center; grid-column: 1/-1; color: var(--text-dim);">გადატანილი ნივთები არ არის.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            <h3 id="modal-title" style="margin-bottom: 20px;">ავტორიზაცია</h3>
+            <div class="form-group"><label>მომხმარებელი</label><input type="text" id="username-input"></div>
+            <div class="form-group"><label>პაროლი</label><input type="password" id="password-input"></div>
+            <button class="btn btn-gold" style="width: 100%; margin-top: 10px;" onclick="handleAuth()">შესვლა</button>
+            <p style="margin-top: 15px; font-size: 0.85rem; text-align: center; cursor: pointer; color: var(--text-dim);" onclick="toggleAuthMode()">
+                არ გაქვს ანგარიში? <span style="color: var(--gold);">რეგისტრაცია</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="admin-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-btn" onclick="closeModal('admin-modal')">&times;</span>
+            <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-user-shield"></i> ადმინ პანელი</h3>
+            <div id="admin-content" style="max-height: 400px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ავტომატურად განსაზღვრავს მისამართს (Localhost-ის პრობლემის მოსაგვარებლად)
+        const API_URL = `${window.location.origin}/api`;
+        let currentUser = null;
+        let isLoginMode = true;
+        let userItems = [];
+
+        const ADMIN_USERS = ['petriko__', 'პეტრე', 'petre'];
+
+        window.onload = () => {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+            let role = localStorage.getItem('role');
+
+            if (username && ADMIN_USERS.includes(username.toLowerCase())) role = 'admin';
+
+            if (token && username) {
+                currentUser = { username, role, token };
+                updateUI();
+                loadInventory();
+            }
+        };
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('modal-title').innerText = isLoginMode ? 'ავტორიზაცია' : 'რეგისტრაცია';
+        }
+
+        function toggleMcInventory() {
+            const sec = document.getElementById('mc-inventory-section');
+            sec.style.display = (sec.style.display === 'block') ? 'none' : 'block';
+        }
+
+        async function handleAuth() {
+            const username = document.getElementById('username-input').value.trim();
+            const password = document.getElementById('password-input').value;
+            if (!username || !password) return alert('შეავსეთ ყველა ველი');
+
+            const endpoint = isLoginMode ? '/login' : '/register';
+            try {
+                const res = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+
+                if (isLoginMode) {
+                    let userRole = data.role;
+                    if (ADMIN_USERS.includes(data.username.toLowerCase())) userRole = 'admin';
+
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('role', userRole);
+                    currentUser = { username: data.username, role: userRole, token: data.token };
+                    updateUI();
+                    loadInventory();
+                    closeModal('auth-modal');
+                } else {
+                    alert('რეგისტრაცია წარმატებულია! ახლა გაიარეთ ავტორიზაცია.');
+                    toggleAuthMode();
+                }
+            } catch (err) { alert(err.message); }
+        }
+
+        function logout() {
+            localStorage.clear();
+            currentUser = null;
+            location.reload();
+        }
+
+        function updateUI() {
+            const authContainer = document.getElementById('auth-buttons');
+            if (currentUser) {
+                let adminBtn = currentUser.role === 'admin' 
+                    ? `<button class="btn btn-gold" onclick="openAdminPanel()"><i class="fa-solid fa-user-gear"></i> Admin Panel</button>` 
+                    : '';
+                authContainer.innerHTML = `
+                    <span style="font-weight: 600; color: var(--gold);"><i class="fa-solid fa-user"></i> ${currentUser.username}</span>
+                    ${adminBtn}
+                    <button class="btn btn-danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+                `;
+            }
+        }
+
+        let isSpinning = false;
+        async function spinWheel() {
+            if (!currentUser) return openModal('auth-modal');
+            if (isSpinning) return;
+
+            const msgEl = document.getElementById('spin-msg');
+            msgEl.innerText = '';
+
+            try {
+                const res = await fetch(`${API_URL}/spin`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${currentUser.token}` }
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    msgEl.style.color = 'var(--danger)';
+                    msgEl.innerText = data.error;
+                    return;
+                }
+
+                isSpinning = true;
+                const wheel = document.getElementById('wheel');
+                const degreesPerPrize = 60;
+                const prizeDegree = data.prizeIndex * degreesPerPrize;
+                const totalRotation = 360 * 5 + (360 - prizeDegree);
+
+                wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+                setTimeout(() => {
+                    msgEl.style.color = 'var(--gold)';
+                    msgEl.innerText = `გილოცავთ! თქვენ მოიგეთ: ${data.prize.name}`;
+                    isSpinning = false;
+                    loadInventory();
+                }, 4000);
+
+            } catch (err) { alert('შეცდომა სპინის დროს'); }
+        }
+
+        async function loadInventory() {
+            if (!currentUser) return;
+            try {
+                const res = await fetch(`${API_URL}/inventory`, {
+                    headers: { 'Authorization': `Bearer ${currentUser.token}` }
+                });
+                userItems = await res.json();
+                renderInventories();
+            } catch (err) { console.error(err); }
+        }
+
+        function renderInventories() {
+            const availList = document.getElementById('inventory-list');
+            const mcList = document.getElementById('mc-inventory-list');
+
+            const availableItems = userItems.filter(i => i.status !== 'claimed');
+            const claimedItems = userItems.filter(i => i.status === 'claimed');
+
+            if (availableItems.length === 0) {
+                availList.innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: var(--text-dim);">ინვენტარი ცარიელია</p>`;
+            } else {
+                availList.innerHTML = availableItems.map(item => `
+                    <div class="inv-card">
+                        <i class="fa-solid ${item.item_icon}"></i>
+                        <p style="font-size: 0.9rem; font-weight: 600;">${item.item_name}</p>
+                        <button class="btn btn-gold" style="font-size:0.75rem; padding: 6px 12px;" onclick="claimToMc(${item.id})">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> გადატანა მაინქრაფთში
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            if (claimedItems.length === 0) {
+                mcList.innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: var(--text-dim);">გადატანილი ნივთები არ არის.</p>`;
+            } else {
+                mcList.innerHTML = claimedItems.map(item => `
+                    <div class="inv-card" style="border-color: rgba(255, 183, 3, 0.4);">
+                        <i class="fa-solid ${item.item_icon}"></i>
+                        <p style="font-size: 0.9rem; font-weight: 600;">${item.item_name}</p>
+                        <button class="btn btn-danger" style="font-size:0.75rem; padding: 6px 12px;" onclick="deleteMcItem(${item.id})">
+                            <i class="fa-solid fa-trash"></i> წაშლა
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function claimToMc(id) {
+            await fetch(`${API_URL}/inventory/claim/${id}`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${currentUser.token}` }
+            });
+            await loadInventory();
+            document.getElementById('mc-inventory-section').style.display = 'block';
+        }
+
+        async function deleteMcItem(id) {
+            const confirmed = confirm('მიიღეთ ეს ნივთი სერვერზე? თუ არა შეატყობინეთ სტაფს რადგან ეს ნივთები ავტომატურად იშლება 3 დღეში!!!');
+            if (confirmed) {
+                await fetch(`${API_URL}/inventory/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${currentUser.token}` }
+                });
+                loadInventory();
+            }
+        }
+
+        async function openAdminPanel() {
+            openModal('admin-modal');
+            const container = document.getElementById('admin-content');
+            container.innerHTML = '<p>იტვირთება...</p>';
+
+            try {
+                const res = await fetch(`${API_URL}/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${currentUser.token}` }
+                });
+                const users = await res.json();
+
+                let html = `<table class="admin-table"><thead><tr><th>ID</th><th>მომხმარებელი</th><th>როლი</th><th>ინვენტარი</th></tr></thead><tbody>`;
+                users.forEach(u => {
+                    let itemsHtml = u.inventory.map(item => `${item.item_name} <button onclick="deleteItemAdmin(${item.id})" style="color:var(--danger); background:none; border:none; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>`).join(', ');
+                    html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.role}</td><td>${itemsHtml || 'ცარიელი'}</td></tr>`;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (err) { container.innerHTML = '<p style="color:var(--danger)">შეცდომა</p>'; }
+        }
+
+        async function deleteItemAdmin(id) {
+            if (!confirm('ნამდვილად გსურთ წაშლა?')) return;
+            await fetch(`${API_URL}/admin/item/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${currentUser.token}` }
+            });
+            openAdminPanel();
+            loadInventory();
+        }
+    </script>
+</body>
+</html>
