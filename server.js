@@ -18,7 +18,7 @@ const ADMIN_USERNAMES = ['petriko__', 'პეტრე', 'petre'];
 (async () => {
     try {
         db = await open({
-            filename: './database.sqlite',
+            filename: path.join(__dirname, 'database.sqlite'),
             driver: sqlite3.Database
         });
 
